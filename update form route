@@ -1,0 +1,3 @@
+<a href="{{ route('menu.update',$item->id) }}">
+  <button class="btn btn-sm btn-success mb-2">Edit</button>
+</a>
