@@ -1,0 +1,5 @@
+protected $table = 'name';
+protected $primaryKey = 'id';
+use HasFactory;
+use SoftDeletes;
+protected $guarded=[];
