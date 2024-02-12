@@ -1,0 +1,25 @@
+ public function update(Request $request, $id)
+    {
+        try{
+            $validation = Validator::make($request->all(), [
+                'country_name'      => 'required',
+                'country_code'       => 'required',
+                'status'            => 'required',
+            ]);
+            if ($validation->fails()) {
+                notify()->error("Validation Error!!" . $validation->getMessageBag()->first());
+                return redirect()->back();
+            }
+            $country = Country::find($id);
+            $country->update([
+                'country_name'          => $request->country_name,
+                'country_code'          => $request->country_code,
+                'status'                => $request->status,
+            ]);
+            notify()->success('Successfully created.');
+            return redirect()->route('country.index');
+        }catch(Exception $e){
+            notify()->message('Something went wrong!'.$e->getMessage());
+            return redirect()->back();
+        }
+    }
