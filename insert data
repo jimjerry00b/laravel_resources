@@ -1,0 +1,4 @@
+Menu::create([
+    'menu' => $request->menu,
+    'link' => $request->link,
+]);
