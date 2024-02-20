@@ -2,3 +2,9 @@ Menu::create([
     'menu' => $request->menu,
     'link' => $request->link,
 ]);
+==============================
+OR
+===============================
+$category = OrderModel::find($input['id']);
+$category->delivery_status = $input['delivery_status'];
+$category->save();
