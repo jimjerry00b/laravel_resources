@@ -8,3 +8,55 @@ OR
 $category = OrderModel::find($input['id']);
 $category->delivery_status = $input['delivery_status'];
 $category->save();
+
+
+/* Another method */
+
+ public function store(Request $request)
+    {
+        try{
+            $validate = Validator::make($request->all(),[
+                'first_name'            =>'required|string|min:3|max:100',
+                'last_name'             =>'required|string|min:3|max:100',
+                'email'                 =>'required',
+                'phone_number'          =>'required',
+                'birth_year'            =>'required|date',
+                'country'               =>'required|string|max:100',
+                'work_place'            =>'required',
+                'gender'                =>'required',
+                'relation_status'       =>'required',
+                'last_education_year'   =>'required|numeric|min:1950|max:2023',
+                'address'               =>'required|string|min:2|max:160',
+                'home_town'             =>'required|string',
+                'status'                =>'required',
+            ]);
+            if($validate->fails())
+            {
+                notify()->error('Validation Error!'.$validate->getMessageBag()->first());
+                return redirect()->back();
+            }
+
+
+           PhoneList::create([
+            'first_name'            =>$request->first_name,
+            'last_name'             =>$request->last_name,
+            'email'                 =>$request->email,
+            'phone_number'          =>$request->phone_number,
+            'birth_year'            =>$request->birth_year,
+            'country'               =>$request->country,
+            'work_place'            =>$request->work_place,
+            'gender'                =>$request->gender,
+            'relation_status'       =>$request->relation_status,
+            'last_education_year'   =>$request->last_education_year,
+            'address'               =>$request->address,
+            'home_town'             =>$request->home_town,
+            'status'                =>$request->status,
+           ]);
+           notify()->success('Success!','PhoneList has been successfully created.');
+           return redirect()->route('phoneList.index');
+
+        }catch(Exception $e){
+            notify()->error('Something Went Wrong!!'.$e->getMessage());
+            return redirect()->back();
+        }
+    }
