@@ -1,0 +1,4 @@
+Total Data = 200
+Per Page Limit = 10
+Total Pages = ceil(Total Data / Per Page Limit)
+Formula = (Page-1) x Per Page Limit
