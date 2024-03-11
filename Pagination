@@ -21,3 +21,23 @@ Formula = (Page-1) x Per Page Limit
 </nav>
 @endif
 <!-- navigation end -->
+
+
+<!-- js --->
+$("#next").on('click', function() {
+                    var page = $("#next").attr('data-index');
+                    ajax_function(page, type, JSON.stringify(architecture_id));
+                });
+
+
+                $("#pre").on('click', function() {
+                    var page = $("#pre").attr('data-index');
+                    ajax_function(page, type, JSON.stringify(architecture_id));
+                });
+
+                $(".page_num").on('click', function() {
+                    var page = $(this).attr('data-index');
+                    ajax_function(page, type, JSON.stringify(architecture_id));
+                });
+<!-- js end -->
+
