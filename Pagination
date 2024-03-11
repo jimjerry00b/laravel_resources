@@ -2,3 +2,22 @@ Total Data = 200
 Per Page Limit = 10
 Total Pages = ceil(Total Data / Per Page Limit)
 Formula = (Page-1) x Per Page Limit
+
+<!-- navigation -->
+@if($total_products > 0)
+<nav>
+    <ul class="pagination">
+        <li class="page-item {{ (($page-1) < 1)? 'disabled' : '' }}" aria-disabled="true" aria-label="">
+            <a id='pre' data-index="{{ $page-1 }}" class="page-link" href="javascript:void(0)" rel="next" aria-label="">Previous</a>
+        </li>
+
+        @for ($x = 1; $x <= $total_pages; $x++) <li class="page-item page_num <?= ($x == $page) ? 'active' : '' ?>" data-index="{{ $x }}" aria-current="page"><span class="page-link fw-bold">{{ $x }}</span></li>
+            @endfor
+
+            <li class="page-item {{ ($total_pages == $page)? 'disabled' : '' }}">
+                <a id='next' data-index="{{ $page+1 }}" class="page-link" href="javascript:void(0)" rel="next" aria-label="">Next</a>
+            </li>
+    </ul>
+</nav>
+@endif
+<!-- navigation end -->
