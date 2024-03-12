@@ -1,0 +1,14 @@
+if(confirm("Are you sure want to delete?")){
+    $.ajax({
+        url : "{{ route('front.deleteItem') }}",
+        type : 'post',
+        data : {
+          "_token": "{{ csrf_token() }}",
+          'rowId' : rowId,
+        },
+        dataType : 'json',
+        success : function(res){            
+            window.location.href= "{{ route('front.cart') }}";            
+        }
+    });
+}
