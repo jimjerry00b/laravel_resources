@@ -1,0 +1,1 @@
+<button type="submit" onclick="return confirm(&quot;Confirm delete?&quot;)">Delete</button>
