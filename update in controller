@@ -6,8 +6,7 @@
                 'country_code'       => 'required',
                 'status'            => 'required',
             ]);
-            if ($validation->fails()) {
-                notify()->error("Validation Error!!" . $validation->getMessageBag()->first());
+            if ($validation->fails()) {                
                 return redirect()->back();
             }
             $country = Country::find($id);
@@ -18,8 +17,7 @@
             ]);
             notify()->success('Successfully created.');
             return redirect()->route('country.index');
-        }catch(Exception $e){
-            notify()->message('Something went wrong!'.$e->getMessage());
+        }catch(Exception $e){            
             return redirect()->back();
         }
     }
