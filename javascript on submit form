@@ -1,0 +1,109 @@
+let openAccountForm = document.getElementById('open-account-form');
+
+    openAccountForm.addEventListener('submit', function(e){
+        e.preventDefault();
+        $('.invalid-feedback').empty();
+        let btn = e.target.querySelector('.submit-btn');
+        let btnText = btn.innerText;
+        let errors = openAccountForm.querySelectorAll('.is-invalid');
+        let xhr = new XMLHttpRequest;
+
+        btn.innerHTML = '<i class="preloader_white_mini"></i>';
+        btn.disabled = true;
+
+        for(let i = 0; i < errors.length; i++) {
+            errors[i].classList.remove('is-invalid');
+        }
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState != XMLHttpRequest.DONE){
+                return;
+            }
+
+            if (xhr.status == 200) {
+                let firstResponse;
+
+                try {
+                    firstResponse = JSON.parse(xhr.response);
+                } catch(e) {
+                    // error
+                    return;
+                }
+
+                if(firstResponse.error) {
+                    for(let i in firstResponse.alert)
+                        addError(openAccountForm.querySelector('.group-' + i), firstResponse.alert[i]);
+
+                    btn.innerText = btnText;
+                    btn.disabled = false;
+                }else{
+                    xhr.onreadystatechange = function(){
+                        if (xhr.readyState != XMLHttpRequest.DONE){
+                            return;
+                        }
+
+                        if (xhr.status == 200) {
+                            btn.innerText = btnText;
+                            btn.disabled = false;
+
+                            let secondResponse;
+
+                            try {
+                                secondResponse = JSON.parse(xhr.response);
+
+                                if(secondResponse.error) {
+                                    // something went wrong
+                                    addError(openAccountForm.querySelector('.group-button'), 'unknown error');
+                                } else {
+                                
+            // getTransaction
+            window.criteo_q = window.criteo_q || [];
+            var deviceType = /iPad/.test(navigator.userAgent) ? "t" : /Mobile|iP(hone|od)|Android|BlackBerry|IEMobile|Silk/.test(navigator.userAgent) ? "m" : "d";
+            window.criteo_q.push(
+                { event: "setAccount", account:64911},
+                { event: "setEmail", email: "" },
+                { event: "setSiteType", type: deviceType},
+                { event: "trackTransaction", user_segment: "1",  id: 1710651614, item: [
+                    {id: "1", price: 1, quantity: 1 }
+                ]}
+            );                                                            (function(w,d,t,r,u){var f,n,i;w[u]=w[u]||[],f=function(){var o={ti:"56299597"};o.q=w[u],w[u]=new UET(o),w[u].push("pageLoad")},n=d.createElement(t),n.src=r,n.async=1,n.onload=n.onreadystatechange=function(){var s=this.readyState;s&&s!=="loaded"&&s!=="complete"||(f(),n.onload=n.onreadystatechange=null)},i=d.getElementsByTagName(t)[0],i.parentNode.insertBefore(n,i)})(window,document,"script","//bat.bing.com/bat.js","uetq");
+                                                            hitPostbackInvesting();
+                                    $('.main_page').css('display', 'none');
+                                    $('.thanks_block').css('display', 'block');
+                                    $('.login-link').attr("href", secondResponse.data.Token);
+                                    document.querySelector('.account-number').innerText = secondResponse.data.Login;
+                                    document.querySelector('.trader-password').innerText = secondResponse.data.Password;
+                                    window.history.pushState(null, null, 'dogecoin/thanks');
+                                    $('html, body').animate({
+                                        scrollTop: $("#top").offset().top
+                                    }, 2000);
+                                }
+                            } catch(e) {
+                                // something went wrong
+                                addError(openAccountForm.querySelector('.group-button'), 'unknown error');
+                            }
+                        }
+
+                    };
+                    xhr.open('POST', '/fast_open_live_account.php', true);
+                    xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+                    xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+                    xhr.send(serialize(firstResponse));
+                }
+            }
+
+        };
+        xhr.open('POST', '/fast_open_live_account.php', true);
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+        let request = {};
+        let formData = new FormData(openAccountForm);
+
+        for(let key of formData.keys()) {
+            request[key] = formData.get(key);
+        }
+
+        xhr.send(serialize(request));
+    });
