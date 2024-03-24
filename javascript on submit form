@@ -107,3 +107,27 @@ let openAccountForm = document.getElementById('open-account-form');
 
         xhr.send(serialize(request));
     });
+
+
+
+
+
+
+
+
+
+<!-- Get data from form -->
+
+let openAccountForm = document.getElementById('start_messageing');
+
+
+
+    openAccountForm.addEventListener('submit', function(e){
+        e.preventDefault();
+
+        var formData = new FormData(e.target);
+
+        var sender_id = formData.get('sender_id');
+
+        console.log(sender_id);
+    });
