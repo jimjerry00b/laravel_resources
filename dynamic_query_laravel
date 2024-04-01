@@ -1,0 +1,40 @@
+public function searchFilter(Request $request){
+        $query = Product::query();
+        
+
+        if($all_data->category){
+            foreach ($all_data->category as $category) {                
+                $query->orWhere('category_id', $category);
+            }            
+        }
+        
+
+        if($all_data->brand){
+            foreach ($all_data->brand as $brand) {
+                $query->orWhere('brand_id', $brand);
+            }            
+        }
+
+        
+        $query->with('productqtyprice');
+          
+        if($all_data->maxPriceRange){               
+            $query->whereBetween('product_price', [0, $all_data->maxPriceRange]);  
+        }
+
+
+        if(isset($all_data->offset)){
+            $products = $query->skip($all_data->offset)->take(3)->get();
+        }else{
+            $products = $query->skip(0)->take(1)->get();
+        }
+        
+        //echo $query->toSql();die;
+        if(isset($all_data->offset)){
+            $skip = $all_data->offset;
+            return view('website.home.ajaxFilterSeeMore', compact('products', 'skip'));
+        }else{
+            return view('website.home.ajaxFilter', compact('products'));
+        }
+        
+    }
